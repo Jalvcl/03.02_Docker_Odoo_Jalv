@@ -1,0 +1,33 @@
+version: '2'
+services:
+  web:
+    image: jalvcl/odoo_base:08_base
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+      - PORT=5432
+    ports:
+      - "8069:8069"
+    volumes:
+      - './odoo/mnt/extra-addons:/mnt/extra-addons'
+      - './odoo/mnt/test-addons:/mnt/test-addons'
+      - './odoo/odoo-web-data:/var/lib/odoo'
+      - './_conf:/etc/odoo'
+  db:
+    image: postgres:10
+    container_name: db
+    restart: always
+    command: -p 5432
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - './odoo/odoo-db-data:/var/lib/postgresql/data'
+      - './_var/log/postgresql:/var/log/postgresql'
+    ports:
+      - '5432:5432'
