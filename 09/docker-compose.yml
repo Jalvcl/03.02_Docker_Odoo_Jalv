@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: jalvcl/odoo_base:latest
+    image: jalvcl/odoo_base:09_base
     restart: always
     depends_on:
       - db
@@ -13,10 +13,10 @@ services:
     ports:
       - "8069:8069"
     volumes:
-      - './odoo/mnt/extra-addons:/mnt/extra-addons'
-      - './odoo/mnt/test-addons:/mnt/test-addons'
+      - './odoo/addons/extra-addons:/mnt/extra-addons'
+      - './odoo/addons/test-addons:/mnt/test-addons'
       - './odoo/odoo-web-data:/var/lib/odoo'
-      - './_conf:/etc/odoo'
+      - './_config:/etc/odoo'
   db:
     image: postgres:10
     container_name: db
